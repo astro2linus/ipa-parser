@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-ipa_file = IpaParser::IPAFile.new(/path/to/your/ipa_file)
+ipa_file = IpaParser::IpaFile.new(/path/to/your/ipa_file)
 ipa_file.name
 ipa_file.display_name
 ipa_file.identifier

@@ -76,7 +76,6 @@ module IpaParser
           `#{cmd}`
           @data = uncrushed_file.read
         ensure
-          puts crushed_file.path + " " + uncrushed_file.path
           crushed_file.close
           uncrushed_file.close
           crushed_file.unlink
