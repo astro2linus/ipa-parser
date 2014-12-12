@@ -3,7 +3,7 @@ require 'cfpropertylist'
 require 'zip'
 
 module IpaParser
-  class IPAFile
+  class IpaFile
 
     MAPPED_INFO_KEYS = {
       name:                'CFBundleName',
