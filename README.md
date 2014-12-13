@@ -1,6 +1,6 @@
 # IpaParser
 
-Extract information from a ipa file
+Extract information from a ipa file, such as name, identifier and uncrushed icons etc
 
 ## Installation
 
@@ -25,6 +25,8 @@ ipa_file.name
 ipa_file.display_name
 
 ipa_file.identifier
+
+ipa_file.icon
 
 ## Contributing
 
