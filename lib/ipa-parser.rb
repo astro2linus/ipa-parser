@@ -66,8 +66,8 @@ module IpaParser
 
     def icon
       if crushed_icon
-        crushed_file = Tempfile.new('crushed_icon.png')
-        uncrushed_file = Tempfile.new('uncrushed_icon.png')
+        crushed_file = Tempfile.new('crushed_icon.png', :encoding => 'ascii-8bit')
+        uncrushed_file = Tempfile.new('uncrushed_icon.png', :encoding => 'ascii-8bit')
         begin 
           crushed_file.write(crushed_icon)
           png_bin =  File.expand_path("../../bin/pngcrush", __FILE__)
