@@ -28,7 +28,7 @@ ipa_file.identifier
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/ipa-parser/fork )
+1. Fork it ( https://github.com/astro2linus/ipa-parser/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
