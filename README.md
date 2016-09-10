@@ -26,8 +26,6 @@ ipa_file.display_name
 
 ipa_file.identifier
 
-ipa_file.icon
-
 ## Contributing
 
 1. Fork it ( https://github.com/astro2linus/ipa-parser/fork )

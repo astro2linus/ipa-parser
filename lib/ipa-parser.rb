@@ -23,67 +23,17 @@ module IpaParser
 
     def initialize(ipa_file)
       @ipa_file = Zip::File.open(ipa_file)
-    end
-
-    def info
       @ipa_file.each do |entry|
-        if entry.name.match(/Payload\/(.)*\.app\/Info.plist/)
+        if entry.name.match(/(.)*\.app\/Info.plist/)
           @plist_path = entry.name
           @plist_bin = entry.get_input_stream.read
         end
       end
-
-      plist = CFPropertyList::List.new(:data => @plist_bin)
-      data = CFPropertyList.native_types(plist.value)
+      @plist = CFPropertyList::List.new(:data => @plist_bin)
     end
 
-    def icons
-      matched_entries = []
-      icon_file_names.each do |file_name|
-        @ipa_file.each do |entry|
-          if entry.name.match(/Payload\/(.)*\.app\/#{file_name}(.)*.png/)
-            matched_entries << @ipa_file.read(entry.name)
-          end
-        end
-      end
-      matched_entries
+    def info
+      CFPropertyList.native_types(@plist.value)
     end
-
-    # normally the last icon has the highest resolution
-    # icons in the ipa file are crushed, cannot display in browsers other than Safari
-    def crushed_icon
-      icons.last
-    end
-
-    def icon_file_names
-      begin
-        # icon names may or may not include '.png', so remove .png suffix for consistence 
-        info["CFBundleIcons"]["CFBundlePrimaryIcon"]["CFBundleIconFiles"].map { |f| File::basename(f, '.png' ) }
-      rescue NoMethodError => e
-        []
-      end
-    end
-
-    def icon
-      if crushed_icon
-        crushed_file = Tempfile.new('crushed_icon.png', :encoding => 'ascii-8bit')
-        uncrushed_file = Tempfile.new('uncrushed_icon.png', :encoding => 'ascii-8bit')
-        begin 
-          crushed_file.write(crushed_icon)
-          png_bin =  File.expand_path("../../bin/pngcrush", __FILE__)
-          cmd = "#{png_bin} -revert-iphone-optimizations "
-          cmd << crushed_file.path + " " + uncrushed_file.path
-          `#{cmd}`
-          @data = uncrushed_file.read
-        ensure
-          crushed_file.close
-          uncrushed_file.close
-          crushed_file.unlink
-          uncrushed_file.unlink
-        end
-      end
-      @data
-    end
-
   end
 end
