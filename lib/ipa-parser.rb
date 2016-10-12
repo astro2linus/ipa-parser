@@ -23,13 +23,14 @@ module IpaParser
 
     def initialize(ipa_file)
       @ipa_file = Zip::File.open(ipa_file)
-      @ipa_file.each do |entry|
-        if entry.name.match(/(.)*\.app\/Info.plist/)
-          @plist_path = entry.name
-          @plist_bin = entry.get_input_stream.read
-        end
+      info_plist = @ipa_file.glob('*\/Info.plist').first || @ipa_file.glob('Payload\/*\.app\/Info.plist').first
+      if info_plist
+        @plist_path = info_plist.name
+        @plist_bin = info_plist.get_input_stream.read
+        @plist = CFPropertyList::List.new(:data => @plist_bin)
+      else
+        raise "Cannot find Info.plist file"
       end
-      @plist = CFPropertyList::List.new(:data => @plist_bin)
     end
 
     def info
@@ -37,3 +38,4 @@ module IpaParser
     end
   end
 end
+
